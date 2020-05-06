@@ -4,8 +4,5 @@
 # node
 node_modules
 
-# typescript
-tsconfig.json
-
 # IDE
 .idea
