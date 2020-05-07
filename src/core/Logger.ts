@@ -2,22 +2,43 @@ import type {
   Input,
   LogFunction,
   LoggerConfig,
+  Settings,
   Transport,
 } from '../common/types';
 import { LEVELS, Levels } from '../common/consts';
+import nodeTransport from '../transports/node';
 
 export class Logger {
   public constructor(config: LoggerConfig) {
     this.levelLimit = config.level;
-    this.transport = config.transport;
-    this.showDateTime = config.showDateTime || true;
+    this.settings = config.settings;
+    this.transport = config.transport || nodeTransport;
+
+    this.debug = this.constructLog(Levels.DEBUG);
+    this.info = this.constructLog(Levels.INFO);
+    this.http = this.constructLog(Levels.HTTP);
+    this.warn = this.constructLog(Levels.WARN);
+    this.error = this.constructLog(Levels.ERROR);
+    this.panic = this.constructLog(Levels.PANIC);
   }
 
   private levelLimit: Levels;
 
-  private readonly transport?: Transport | Transport[];
+  private readonly transport: Transport | Transport[];
 
-  private readonly showDateTime: boolean;
+  private readonly settings?: Settings;
+
+  public debug: LogFunction;
+
+  public info: LogFunction;
+
+  public http: LogFunction;
+
+  public warn: LogFunction;
+
+  public error: LogFunction;
+
+  public panic: LogFunction;
 
   get level(): Levels {
     return this.levelLimit;
@@ -29,31 +50,34 @@ export class Logger {
 
   private getDateString = (): string => {
     const date = new Date();
-    return `${date.toDateString()} ${date.toLocaleTimeString()} | `;
+    return `[${date.toDateString()} ${date.toLocaleTimeString()}] | `;
   };
 
-  private log = (level: Levels): LogFunction => (
+  private constructLog = (level: Levels): LogFunction => (
     input: Input,
     title?: string
   ) => {
-    const dateTime = this.showDateTime ? this.getDateString() : '';
     const message = this.stringify(input);
 
     if (LEVELS[level] <= LEVELS[this.levelLimit]) {
-      if (this.transport) {
-        if (Array.isArray(this.transport)) {
-          this.transport.forEach((transFn) =>
-            transFn(message, level, input, title)
-          );
-        } else {
-          this.transport(message, level, input, title);
-        }
-      } else {
-        console.log(
-          `${dateTime}[${level.toUpperCase()}] | ${
-            title ? `[${title.toUpperCase()}] | ` : ''
-          } ${message}`
+      if (Array.isArray(this.transport)) {
+        this.transport.forEach((transFn) =>
+          transFn({
+            message,
+            level,
+            title,
+            originalInput: input,
+            settings: this.settings,
+          })
         );
+      } else {
+        this.transport({
+          message,
+          level,
+          title,
+          originalInput: input,
+          settings: this.settings,
+        });
       }
     }
   };
@@ -71,16 +95,4 @@ export class Logger {
       }
     }
   };
-
-  public debug = this.log(Levels.DEBUG);
-
-  public info = this.log(Levels.INFO);
-
-  public http = this.log(Levels.HTTP);
-
-  public warn = this.log(Levels.WARN);
-
-  public error = this.log(Levels.ERROR);
-
-  public panic = this.log(Levels.PANIC);
 }
