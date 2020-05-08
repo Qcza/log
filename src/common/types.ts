@@ -19,7 +19,7 @@ export type Transport = (data: TransportData) => void | Promise<void>;
 export type Input = string | Function | Record<string, any>;
 
 export interface LoggerConfig {
-  level: Levels;
+  level?: Levels;
   transport?: Transport | Transport[];
   settings?: Settings;
 }
