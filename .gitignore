@@ -1,8 +1,12 @@
 /lib
 /playground
+/coverage
 
 # node
 node_modules
+
+#npm
+yarn-error.log
 
 # IDE
 .idea

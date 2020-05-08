@@ -9,10 +9,10 @@ import { LEVELS, Levels } from '../common/consts';
 import nodeTransport from '../transports/node';
 
 export class Logger {
-  public constructor(config: LoggerConfig) {
-    this.levelLimit = config.level;
-    this.settings = config.settings;
-    this.transport = config.transport || nodeTransport;
+  public constructor(config?: LoggerConfig) {
+    this.levelLimit = config?.level || Levels.ERROR;
+    this.settings = config?.settings;
+    this.transport = config?.transport || nodeTransport;
 
     this.debug = this.constructLog(Levels.DEBUG);
     this.info = this.constructLog(Levels.INFO);
@@ -47,11 +47,6 @@ export class Logger {
   set level(level: Levels) {
     this.levelLimit = level;
   }
-
-  private getDateString = (): string => {
-    const date = new Date();
-    return `[${date.toDateString()} ${date.toLocaleTimeString()}] | `;
-  };
 
   private constructLog = (level: Levels): LogFunction => (
     input: Input,
