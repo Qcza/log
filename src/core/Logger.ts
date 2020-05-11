@@ -7,12 +7,16 @@ import type {
 } from '../common/types';
 import { LEVELS, Levels } from '../common/consts';
 import nodeTransport from '../transports/node';
+import browserTransport from '../transports/browser';
+import { isBrowser } from '../common/utils';
+
+const DEFAULT_TRANSPORT = isBrowser() ? browserTransport : nodeTransport;
 
 export class Logger {
   public constructor(config?: LoggerConfig) {
     this.levelLimit = config?.level || Levels.ERROR;
     this.settings = config?.settings;
-    this.transport = config?.transport || nodeTransport;
+    this.transport = config?.transport || DEFAULT_TRANSPORT;
 
     this.debug = this.constructLog(Levels.DEBUG);
     this.info = this.constructLog(Levels.INFO);

@@ -1,6 +1,16 @@
 import { Transport } from '../common/types';
 import { getDateTime } from '../common/utils';
-import { NodeFgColor, NodeColorUtils, NODE_COLORS } from '../common/consts';
+import { NodeFgColor, NodeColorUtils, NodeBgColor } from '../common/colors';
+import { Levels } from '../common/consts';
+
+export const NODE_COLORS = {
+  [Levels.DEBUG]: NodeFgColor.MAGENTA,
+  [Levels.INFO]: NodeFgColor.WHITE,
+  [Levels.HTTP]: NodeFgColor.BLUE,
+  [Levels.WARN]: NodeFgColor.YELLOW,
+  [Levels.ERROR]: NodeFgColor.RED,
+  [Levels.PANIC]: NodeBgColor.RED + NodeFgColor.WHITE,
+};
 
 const transport: Transport = ({ settings, level, message, title }) => {
   const dateTime = settings?.showDateTime
@@ -15,7 +25,7 @@ const transport: Transport = ({ settings, level, message, title }) => {
     ? `${NodeFgColor.WHITE}[${title.toUpperCase()}]${NodeColorUtils.RESET} | `
     : '';
 
-  console.log(dateTime + levelString + titleString + message);
+  console.log(`${dateTime}${levelString}${titleString}${message}`);
 };
 
 export default transport;
