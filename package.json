@@ -12,7 +12,13 @@
     "type": "git",
     "url": "git+https://github.com/Qcza/q-log.git"
   },
-  "keywords": [],
+  "keywords": [
+    "log",
+    "logger",
+    "debug",
+    "console.log",
+    "console.warn"
+  ],
   "author": "qcza",
   "license": "ISC",
   "files": [
