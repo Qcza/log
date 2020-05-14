@@ -14,9 +14,10 @@ const DEFAULT_TRANSPORT = isBrowser() ? browserTransport : nodeTransport;
 
 export class Logger {
   public constructor(config?: LoggerConfig) {
-    this.levelLimit = config?.level || Levels.ERROR;
+    this.levelLimit = config?.level || Levels.DEBUG;
     this.settings = config?.settings;
     this.transport = config?.transport || DEFAULT_TRANSPORT;
+    this.ignoredLevels = config?.ignore || [];
 
     this.debug = this.constructLog(Levels.DEBUG);
     this.info = this.constructLog(Levels.INFO);
@@ -27,6 +28,8 @@ export class Logger {
   }
 
   private levelLimit: Levels;
+
+  private ignoredLevels: Levels[];
 
   private readonly transport: Transport | Transport[];
 
@@ -52,34 +55,47 @@ export class Logger {
     this.levelLimit = level;
   }
 
+  get ignore(): Levels[] {
+    return this.ignoredLevels;
+  }
+
+  set ignore(levels: Levels[]) {
+    this.ignoredLevels = levels;
+  }
+
   private constructLog = (level: Levels): LogFunction => (
     input: Input,
     title?: string
   ) => {
     const message = this.stringify(input);
 
-    if (LEVELS[level] <= LEVELS[this.levelLimit]) {
-      if (Array.isArray(this.transport)) {
-        this.transport.forEach((transFn) =>
-          transFn({
-            message,
-            level,
-            title,
-            originalInput: input,
-            settings: this.settings,
-          })
-        );
-      } else {
-        this.transport({
+    if (this.checkLevel(level)) {
+      return;
+    }
+    if (Array.isArray(this.transport)) {
+      this.transport.forEach((transFn) =>
+        transFn({
           message,
           level,
           title,
           originalInput: input,
           settings: this.settings,
-        });
-      }
+        })
+      );
+    } else {
+      this.transport({
+        message,
+        level,
+        title,
+        originalInput: input,
+        settings: this.settings,
+      });
     }
   };
+
+  private checkLevel = (level: Levels): boolean =>
+    LEVELS[level] < LEVELS[this.levelLimit] ||
+    this.ignoredLevels.includes(level);
 
   private stringify = (msg: Input): string => {
     switch (typeof msg) {

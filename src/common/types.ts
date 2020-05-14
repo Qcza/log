@@ -21,5 +21,6 @@ export type Input = string | Function | Record<string, any>;
 export interface LoggerConfig {
   level?: Levels;
   transport?: Transport | Transport[];
+  ignore?: Levels[];
   settings?: Settings;
 }
