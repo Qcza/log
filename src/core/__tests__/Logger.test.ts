@@ -1,6 +1,6 @@
 import { Logger } from '../Logger';
 import { Settings, Transport, TransportData } from '../../common/types';
-import { Levels } from '../../common/consts';
+import { Levels } from '../..';
 
 describe('Logger', () => {
   let logger: Logger;
@@ -66,7 +66,7 @@ describe('Logger', () => {
   it('should not call transport below limit level', () => {
     logger.info(stringInput);
     expect(transport).toHaveBeenCalledTimes(1);
-    logger.level = Levels.DEBUG;
+    logger.level = Levels.ERROR;
     logger.info(stringInput);
     expect(transport).toHaveBeenCalledTimes(1);
   });
@@ -97,5 +97,20 @@ describe('Logger', () => {
     logger = new Logger({ transport });
     logger.debug(stringInput, title);
     expect(transport).toHaveBeenCalledWith(expected);
+  });
+
+  it('should ignore passed level', () => {
+    const expected: TransportData = {
+      message: stringInput,
+      level: Levels.DEBUG,
+      originalInput: stringInput,
+    };
+    logger = new Logger({ transport });
+    logger.ignore = [Levels.HTTP];
+    logger.debug(stringInput);
+    expect(transport).toHaveBeenCalledWith(expected);
+    expect(transport).toHaveBeenCalledTimes(1);
+    logger.http(stringInput);
+    expect(transport).toHaveBeenCalledTimes(1);
   });
 });
