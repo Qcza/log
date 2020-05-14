@@ -4,7 +4,7 @@ Simple logger with custom transports.
 
 ### use
 ```typescript
-import { Logger, Levels } from '@qcza/qlog';
+import { Logger, Levels } from 'qcza-qlog';
 
 const qlog = new Logger();
 
