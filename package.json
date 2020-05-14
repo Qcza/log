@@ -1,8 +1,9 @@
 {
   "name": "q-log",
   "version": "1.0.0",
-  "description": "simple logger",
-  "main": "index.js",
+  "description": "Simple logger with custom transports",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "test": "jest",
     "build": "tsc",
