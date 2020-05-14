@@ -55,10 +55,10 @@ const config: LoggerConfig = {
 }
 ```
 
-You may also set the log level and ignore log level with setters
+You may also set the minimum log level and ignore log levels with setters
 
 ```typescript
 qlog.level = Levels.DEBUG;
 
-qlog.ignore = Levels.HTTP;
+qlog.ignore = [Levels.HTTP];
 ```
