@@ -1,5 +1,5 @@
 {
-  "name": "qcza-qlog",
+  "name": "qcza-log",
   "version": "1.0.0",
   "description": "Simple logger with custom transports",
   "main": "lib/index.js",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Qcza/qlog.git"
+    "url": "git+https://github.com/Qcza/log.git"
   },
   "keywords": [
     "log",
