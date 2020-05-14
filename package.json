@@ -1,6 +1,6 @@
 {
-  "name": "qlogger",
-  "version": "0.1.0",
+  "name": "q-log",
+  "version": "1.0.0",
   "description": "simple logger",
   "main": "index.js",
   "scripts": {
@@ -8,9 +8,13 @@
     "build": "tsc",
     "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Qcza/q-log.git"
+  },
   "keywords": [],
   "author": "qcza",
-  "license": "MIT",
+  "license": "ISC",
   "files": [
     "lib/**/*"
   ],
