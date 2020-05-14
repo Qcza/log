@@ -1,5 +1,5 @@
 {
-  "name": "q-log",
+  "name": "@qcza/qlog",
   "version": "1.0.0",
   "description": "Simple logger with custom transports",
   "main": "lib/index.js",
@@ -7,16 +7,13 @@
   "scripts": {
     "test": "jest",
     "build": "tsc",
-    "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
+    "lint": "eslint 'src/**/*.{ts,tsx}' --quiet --fix",
     "prepare": "npm run build",
-    "prepublishOnly": "npm test && npm run lint",
-    "preversion": "npm run lint",
-    "version": "npm run format && git add -A src",
-    "postversion": "git push && git push --tags"
+    "prepublishOnly": "npm test && npm run lint"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Qcza/q-log.git"
+    "url": "git+https://github.com/Qcza/qlog.git"
   },
   "keywords": [
     "log",
