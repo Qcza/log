@@ -1,4 +1,4 @@
-# qlogger
+# q-log
 
 Simple logger with custom transports.
 
@@ -55,7 +55,7 @@ const config: LoggerConfig = {
 }
 ```
 
-You may also set the minimum log level and ignore log levels with setters
+You may also set the minimum log level and ignore log levels with```` setters
 
 ```typescript
 qlog.level = Levels.DEBUG;
