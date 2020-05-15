@@ -16,7 +16,14 @@ export interface TransportData {
 
 export type Transport = (data: TransportData) => void | Promise<void>;
 
-export type Input = string | Function | Record<string, any>;
+export type Input =
+  | string
+  | number
+  | boolean
+  | null
+  | undefined
+  | Function
+  | Record<string, any>;
 
 export interface LoggerConfig {
   level?: Levels;

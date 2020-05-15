@@ -106,7 +106,7 @@ export class Logger {
         return JSON.stringify(msg);
       }
       default: {
-        return msg;
+        return String(msg);
       }
     }
   };
