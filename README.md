@@ -20,6 +20,9 @@ export {qlog};
 import {qlog} from './config';
 
 qlog.debug('message');
+
+// You can pass additional title in second argument
+qlog.debug('message', 'title')
 ```
 
 ### levels
