@@ -21,7 +21,7 @@ import {qlog} from './config';
 
 qlog.debug('message');
 
-// You can pass additional title in second argument
+// You can pass additional title in the second argument
 qlog.debug('message', 'title')
 ```
 
