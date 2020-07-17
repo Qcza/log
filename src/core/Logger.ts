@@ -103,7 +103,8 @@ export class Logger {
         return '[Function]';
       }
       case 'object': {
-        return JSON.stringify(msg);
+        const string = String(msg);
+        return string !== '[object Object]' ? string : JSON.stringify(msg);
       }
       default: {
         return String(msg);
